@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<style>
+      table, th, td {
+        order:1px solid black;
+      }
+</style>
+<!-- Refresh the leaderboard display every 15 seconds-->
+<meta http-equiv="refresh" content="15">
+<head>
+    <meta charset="UTF-8">
+    <title>displayDF</title>
+</head>
+<body>
+    <h2>DevNet Demo Challenge Leaderboard</h2>
+    <!-- Mark data as safe, otherwise it'll be rendered as a string
+         data is a list of users on leader board display with fastest
+         time taken to complete the challenge
+     -->
+    {{ data|safe }}
+</body>
+</html>
