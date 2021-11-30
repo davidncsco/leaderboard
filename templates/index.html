@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+  <meta http-equiv="refresh" content="15">
+</head>
+<body>
+
+<div class="leaderboard">
+    <header>
+      <h1>Leader Board</h1>
+      <img src="{{ url_for('static', path='/devvie.png') }}" alt="">
+    </header>
+    {{ data|safe }}
+</div>
+
+</body>
+</html>

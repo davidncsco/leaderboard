@@ -28,10 +28,14 @@
 # user leaderboard of data. The python app provides a simple way of capturing and
 # displaying of 'at event' challenge data.
 # 
+from typing import Optional
 from fastapi import FastAPI
 from fastapi import Request
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from pathlib import Path
 from pydantic import BaseModel
+from pydantic.networks import HttpUrl
 
 from tortoise import fields
 from tortoise.models import Model
@@ -41,6 +45,9 @@ from tortoise.contrib.pydantic import pydantic_model_creator
 import pandas as pd
 
 app = FastAPI()
+
+# Added to create path to static files for linking CSS file
+app.mount("/static", StaticFiles(directory="static"),name="static")
 
 class Users(Model):
     id = fields.IntField(pk=True)
@@ -53,8 +60,8 @@ Users_Pydantic = pydantic_model_creator(Users, name='Users')
 UsersIn_Pydantic = pydantic_model_creator(Users, name='UsersIn', exclude_readonly=True)
 
 @app.get('/')
-def index():
-    return ["DevNet Custome Success Leaderboard Display"]
+async def root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 templates = Jinja2Templates(directory="templates")
 
@@ -66,7 +73,7 @@ async def get_users(request: Request):
     users_dict = []
     for x in users: users_dict.append(x.__dict__)
     df = pd.DataFrame(users_dict)
-    return templates.TemplateResponse('form.html', context={'request': request, 'data': df.to_html()})
+    return templates.TemplateResponse('index.html', context={'request': request, 'data': df.to_html()})
 
 @app.get('/leaders/{id}')
 async def get_user(user_id: int):
