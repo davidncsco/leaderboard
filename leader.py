@@ -47,7 +47,7 @@ import pandas as pd
 app = FastAPI()
 
 # Added to create path to static files for linking CSS file
-app.mount("/static", StaticFiles(directory="static"),name="static")
+app.mount("/static", StaticFiles(directory="templates"),name="static")
 
 class Users(Model):
     id = fields.IntField(pk=True)

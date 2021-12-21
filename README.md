@@ -3,11 +3,12 @@
 ## Author - David Nguyen (davidn@cisco.com)
 # 
 ### Description
-This is a simple leaderboard display application, for presenting a user leaderboard of data. The python app provides a simple way of capturing and displaying of 'at event' challenge data.
+This is a simple leaderboard display application, for presenting a user leaderboard of data. 
+The python app provides a simple way of capturing and displaying of 'at event' challenge data.
 
 This package can be dockerized and run anywhere docker is available.
 
- ![](images/overview.png)
+ ![](overview.png)
 
 ### Appication has been tested on Python 3.8.9 and utilized the following modules:
 1. FastAPI - FastAPI framework, high performance, easy to learn, fast to code
@@ -24,4 +25,6 @@ This package can be dockerized and run anywhere docker is available.
 4. http://127.0.0.1:8000/docs   # To start Swagger UI, you can input user data using POST method
 5. http://127.0.0.1:8000/leaders # To display leader
 
-Sounds complicated but it's just a simple python script. Have fun!
+
+This simple app suggests a good framework for developing any web application/services quickly so
+I hope you will find it useful. Have fun!

@@ -2,7 +2,6 @@ FROM python:3.8.9-slim
 
 COPY ./leader.py /app/
 COPY ./requirements.txt /app
-COPY ./static /app/static
 COPY ./templates /app/templates
 
 WORKDIR /app
