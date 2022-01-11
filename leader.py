@@ -60,7 +60,7 @@ async def get_user(user_id: int):
 async def get_user_by_email(email_addr: str = Query(default=None,description="Please enter user email addr")):
     users = await Users_Pydantic.from_queryset(Users.filter(email=email_addr))
     if len(users) > 0:
-        return {f"Found user with email {email_addr}" : f"id = {users[0].id}"  }
+        return {f'Found user with email {email_addr}' : f'id = {users[0].id}'  }
     else:
         return {'Error' : f'User {email_addr} not found'}
 
