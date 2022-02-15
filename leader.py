@@ -16,7 +16,7 @@ from tortoise.contrib.pydantic import pydantic_model_creator
 from tortoise.validators import RegexValidator
 
 import pandas as pd
-import re
+import re, os
 
 app = FastAPI()
 
@@ -26,10 +26,10 @@ app.mount("/static", StaticFiles(directory="templates"),name="static")
 class Users(Model):
     id = fields.IntField(pk=True)
     email = fields.CharField(max_length=50, unique=True, validators=[RegexValidator(
-        '^[a-z0-9]+[\._]?[ a-z0-9]+[@]\w+[. ]\w{2,3}$',re.IGNORECASE)])
-    first = fields.CharField(max_length=25)
-    last  = fields.CharField(max_length=25)
-    time_taken  = fields.SmallIntField(default=0, pk=False)
+        '^[a-z0-9]+[\._]?[ a-z0-9]+[@]\w+[. ]\w{2,3}$',re.IGNORECASE)], default="davidn@abc.com")
+    first = fields.CharField(max_length=25, default="David")
+    last  = fields.CharField(max_length=25, default="Nguyen")
+    time_taken  = fields.SmallIntField(default=1000, pk=False) 
 
     
 Users_Pydantic = pydantic_model_creator(Users, name='Users')
@@ -44,7 +44,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get('/leaders')
 async def get_users(request: Request):
-    users = await UsersIn_Pydantic.from_queryset(Users.all())
+    users = await Users_Pydantic.from_queryset(Users.all())
     # Sort users by the fastest time taken to complete the challenge
     users.sort(key=lambda x: x.time_taken)
     users_dict = []
@@ -76,8 +76,9 @@ async def delete_user(user_id: int):
 
 register_tortoise(
     app,
-    db_url='sqlite://db.sqlite3',
+    db_url=os.getenv('DATABASE_URL'),
     modules={'models': ['leader']},
     generate_schemas=True,
     add_exception_handlers=True
 )
+
